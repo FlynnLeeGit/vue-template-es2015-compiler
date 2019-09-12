@@ -9,6 +9,7 @@ var defaultOptions = {
     // custom feature ensures with context targets functional render
     stripWithFunctional: false
   },
+  transformCode: function(code){ return code },
   // allow spread...
   objectAssign: 'Object.assign'
 }
@@ -21,6 +22,9 @@ module.exports = function transpile (code, opts) {
     opts = defaultOptions
   }
   var code = buble.transform(code, opts).code
+  if(opts.transformCode && typeof opts.transformCode === 'function'){
+    code = opts.transformCode(code)
+  }
   // console.log(code)
   return code
 }
